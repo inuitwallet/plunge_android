@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+user_data.json
+api_keys.json
+.kivy/*
+.buildozer/*
+.idea/*
+.launch
+bin/*
+plunge.ini
+logs/*

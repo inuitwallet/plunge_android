@@ -1,0 +1,391 @@
+<HeadingLabel>
+    canvas.before:
+        Color:
+            rgb: 0.23725, 0.22157, 0.22549
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<SubHeadingLabel>
+    canvas.before:
+        Color:
+            rgb: 0.18725, 0.17157, 0.17549
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<HomeScreen>
+
+	canvas:
+		Color:
+			rgb: 0.13725, 0.12157, 0.12549
+		Rectangle:
+            pos: self.pos
+            size: self.size
+
+	name: app.get_string('Home_Screen')
+
+    GridLayout:
+        id: min_layout
+        cols: 2
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            SubHeadingLabel:
+                text: app.get_string("Liquidity")
+                size_hint: (1, 0.3)
+
+            Label:
+                id: min_liquidity
+                size_hint: (1, 0.7)
+                font_size: 30
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            SubHeadingLabel:
+                text: app.get_string("Rate")
+                size_hint: (1, 0.3)
+
+            Label:
+                id: min_rate
+                size_hint: (1, 0.7)
+                font_size: 30
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            SubHeadingLabel:
+                text: app.get_string("Efficiency")
+                size_hint: (1, 0.3)
+
+            Label:
+                id: min_efficiency
+                size_hint: (1, 0.7)
+                font_size: 30
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            SubHeadingLabel:
+                text: app.get_string("Balance")
+                size_hint: (1, 0.3)
+
+            Label:
+                id: min_balance
+                size_hint: (1, 0.7)
+                font_size: 30
+
+	BoxLayout:
+		id: max_layout
+		orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (1, 0.65)
+
+            HeadingLabel:
+                size_hint: (1, 0.2)
+                markup: True
+                text: "[ref='pool_stats']%s[/ref]" % app.get_string("Pool_Stats")
+                font_size: 30
+                #on_ref_press: root.show_pool_info()
+
+            #Top row of Pool Stats
+            GridLayout:
+                cols: 2
+                size_hint: (1, 0.4)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Sell_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: pool_sell_side
+                        size_hint: (1, 0.7)
+                        font_size: 32
+                        markup: True
+                        color: (1, 0.72157, 0, 1)
+                        on_ref_press: root.draw_liquidity_chart(app.get_string('Pool_Liquidity'), root.pool_buy_liquidity, root.pool_sell_liquidity)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Buy_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: pool_buy_side
+                        size_hint: (1, 0.7)
+                        font_size: 32
+                        markup: True
+                        color: (0, 0.65490, 0.82745, 1)
+                        on_ref_press: root.draw_chart(app.get_string('Total_Liquidity'), app.get_string('Total_Liquidity'), root.pool_total_liquidity)
+
+            BoxLayout:
+                size_hint: (1, 0.05)
+
+            HeadingLabel:
+                size_hint: (1, 0.2)
+                text: "[ref='exchange_info']%s[/ref]" % app.get_string("Exchange_Stats")
+                font_size: 30
+                markup: True
+                #on_ref_press: root.show_exchange_info()
+
+            BoxLayout:
+                size_hint: (1, 0.30)
+                orientation: 'horizontal'
+                padding: 5
+
+                Spinner:
+                    id: exchange_spinner
+                    values: [app.get_string(exchange) for exchange in app.exchanges]
+                    on_text: root.set_exchange_spinners()
+
+                Spinner:
+                    id: currency_spinner
+                    on_text: root.set_primary_currency()
+
+            # Top row of Exchange Stats
+            GridLayout:
+                cols: 3
+                size_hint: (1, 0.4)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Sell_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_sell_side
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        color: (1, 0.72157, 0, 1)
+                        on_ref_press: root.draw_liquidity_chart(app.get_string('Exchange_Liquidity'), root.exchange_buy_liquidity[root.primary_exchange][root.primary_currency], root.exchange_sell_liquidity[root.primary_exchange][root.primary_currency])
+
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Buy_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_buy_side
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        color: (0, 0.65490, 0.82745, 1)
+                        on_ref_press: root.draw_chart(app.get_string('Exchange_Total_Liquidity'), app.get_string('Exchange_Total_Liquidity'), root.exchange_total_liquidity[root.primary_exchange][root.primary_currency])
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Balance")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_balance
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Balance'), app.get_string('Balance'), root.exchange_balance[root.primary_exchange])
+
+           #Second Row of Exchange stats
+            GridLayout:
+                cols: 4
+                size_hint: (1, 0.4)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Ask_Rate")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_ask_rate
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        color: (1, 0.72157, 0, 1)
+                        on_ref_press: root.draw_chart(app.get_string('Ask_Rate'), app.get_string('Ask_Rate'), root.exchange_ask_rate[root.primary_exchange][root.primary_currency])
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Bid_Rate")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_bid_rate
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        color: (0, 0.65490, 0.82745, 1)
+                        on_ref_press: root.draw_chart(app.get_string('Bid_Rate'), app.get_string('Bid_Rate'), root.exchange_bid_rate[root.primary_exchange][root.primary_currency])
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Efficiency")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: exchange_efficiency
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Efficiency'), app.get_string('Efficiency'), root.exchange_efficiency[root.primary_exchange])
+
+            BoxLayout:
+                size_hint: (1, 0.05)
+
+            HeadingLabel:
+                size_hint: (1, 0.2)
+                text: app.get_string("Personal_Stats")
+                font_size: 30
+
+            GridLayout:
+                cols: 6
+                size_hint: (1, 0.4)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Sell_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_sell_side
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        color: (1, 0.72157, 0, 1)
+                        markup: True
+                        on_ref_press: root.draw_liquidity_chart(app.get_string('Liquidity'), root.total_buy_liquidity, root.total_sell_liquidity)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Buy_Side_Liquidity")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_buy_side
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        color: (0, 0.65490, 0.82745, 1)
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Total_Liquidity'), app.get_string('Total_Liquidity'), root.total_liquidity_list)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Efficiency")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_efficiency
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Efficiency'), app.get_string('Efficiency'), root.total_efficiency_list)
+
+            GridLayout:
+                cols: 6
+                size_hint: (1, 0.4)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Ask_Rate")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_sell_side_rate
+                        size_hint: (1, 0.7)
+                        font_size: 26
+                        color: (1, 0.72157, 0, 1)
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Total_Ask_Rate'), app.get_string('Total_Ask_Rate'), root.total_ask_rate_list)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Bid_Rate")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_buy_side_rate
+                        size_hint: (1, 0.7)
+                        font_size: 26
+                        color: (0, 0.65490, 0.82745, 1)
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Total_Bid_Rate'), app.get_string('Total_Bid_Rate'), root.total_bid_rate_list)
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    SubHeadingLabel:
+                        text: app.get_string("Balance")
+                        size_hint: (1, 0.3)
+
+                    Label:
+                        id: personal_balance
+                        size_hint: (1, 0.7)
+                        font_size: 28
+                        markup: True
+                        on_ref_press: root.draw_chart(app.get_string('Balance'), app.get_string('Balance'), root.total_balance_list)
+
+        #Run Section
+        BoxLayout:
+            id: run_layout
+            size_hint: (1, 0.35)
+            orientation: 'vertical'
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: (1, 0.2)
+                padding: 10
+
+                Button:
+                    id: start_button
+                    size_hint: (None, 1)
+                    width: 200
+                    height: 50
+                    text: app.get_string("Start")
+                    on_release: root.toggle_client()
+
+                Label:
+                    id: running_label
+                    size_hint: (None, 1)
+                    width: 300
+                    text: app.get_string("Client_Stopped")
+                    color: [0.93725, 0.21176, 0.07843, 1]
+
+
+            TextInput:
+                id: log_output
+                multiline: True
+                size_hint: (1, 0.8)
+                background_color: [0, 0, 0, 0]
+                foreground_color: [1, 1, 1, 1]
+                readonly: True
+                font_size: 22

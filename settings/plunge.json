@@ -1,0 +1,87 @@
+[
+  {
+    "type": "title",
+    "title": "Server Details"
+  },
+  {
+    "type": "string",
+    "title": "Server IP / Hostname",
+    "desc": "The ip address or hostname of the server you would like to connect to",
+    "section": "server",
+    "key": "host"
+  },
+  {
+    "type": "numeric",
+    "title": "Server Port",
+    "desc": "The port to connect to the server on",
+    "section": "server",
+    "key": "port"
+  },
+  {
+    "type": "title",
+    "title": "Exchanges"
+  },
+  {
+    "type": "string_exchange",
+    "title": "Bitcoin Indonesia",
+    "desc": "Add users for Bitcoin Indonesia - The number indicates the number of valid users",
+    "section": "exchanges",
+    "key": "bitcoincoid"
+  },
+  {
+    "type": "string_exchange",
+    "title": "Bittrex",
+    "desc": "Add users for Bittrex - The number indicates the number of valid users",
+    "section": "exchanges",
+    "key": "bittrex"
+  },
+  {
+    "type": "string_exchange",
+    "title": "Bter",
+    "desc": "Add users for Bter - The number indicates the number of valid users",
+    "section": "exchanges",
+    "key": "bter"
+  },
+  {
+    "type": "string_exchange",
+    "title": "CCEDK",
+    "desc": "Add users for CCEDK - The number indicates the number of valid users",
+    "section": "exchanges",
+    "key": "ccedk"
+  },
+  {
+    "type": "string_exchange",
+    "title": "Poloniex",
+    "desc": "Add users for Poloniex - The number indicates the number of valid users",
+    "section": "exchanges",
+    "key": "poloniex"
+  },
+  {
+    "type": "bool",
+    "title": "Monitor",
+    "desc": "Use Plunge to monitor your pool account instead of running the client.",
+    "section": "standard",
+    "key": "monitor"
+  },
+  {
+    "type": "bool",
+    "title": "Start Minimised",
+    "desc": "Choose whether to start Plunge in the minimised view",
+    "section": "standard",
+    "key": "start_min"
+  },
+  {
+    "type": "bool",
+    "title": "Show Disclaimer",
+    "desc": "Choose whether or not to show the disclaimer",
+    "section": "standard",
+    "key": "show_disclaimer"
+  },
+  {
+    "type": "bool",
+    "title": "SmoothLine Charts",
+    "desc": "Display Charts as SmoothLine. IDisable this if charts don't work",
+    "section": "standard",
+    "key": "smooth_line"
+  }
+]
