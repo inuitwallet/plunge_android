@@ -15,7 +15,6 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.spinner import Spinner
 from kivy.network.urlrequest import UrlRequest
-import time
 import utils
 import logging
 
@@ -141,6 +140,7 @@ class SettingStringExchange(SettingString):
     logger = logging.getLogger('Plunge')
     currencies = ['btc', 'ltc', 'eur', 'usd', 'ppc']
     bots = ['nubot', 'pybot', 'none']
+    config = ConfigParser()
 
     def on_panel(self, instance, value):
         if value is None:
@@ -551,30 +551,32 @@ class SettingStringExchange(SettingString):
         self.update_api_spinners()
         self.add_keys_popup.dismiss()
 
-    @staticmethod
-    def fetch_api_keys_from_file():
+    def fetch_api_keys_from_file(self):
         """
         get all api_keys currently saved in the api_keys.json file
         :return:
         """
-        with open('api_keys.json', 'a+') as api_keys_file:
-            try:
-                api_keys = json.load(api_keys_file)
-            except ValueError:
-                api_keys = []
-            api_keys_file.close()
+        config_ini = App.get_running_app().get_application_config()
+        self.config.read(config_ini)
+
+        api_keys = self.config.getdefault('user_data', 'api_keys', '')
+        if api_keys == '':
+            api_keys = []
+        else:
+            api_keys = list(api_keys)
+        self.logger.info("got api keys %s" % str(api_keys))
         return api_keys
 
-    @staticmethod
-    def save_api_keys_to_file(api_keys):
+    def save_api_keys_to_file(self, api_keys):
         """
         save the api_keys json instance back to the file
         :param api_keys:
         :return:
         """
-        with open('api_keys.json', 'w+') as api_keys_file:
-            api_keys_file.write(json.dumps(api_keys))
-            api_keys_file.close()
+        config_ini = App.get_running_app().get_application_config()
+        self.config.read(config_ini)
+        self.logger.info("set api keys %s" % str(api_keys))
+        self.config.set('user_data', 'api_keys', str(api_keys))
 
     def check_address(self, instance, value):
         """
@@ -607,7 +609,6 @@ class SettingStringExchange(SettingString):
         self.bid_slider.max = self.bid_max
 
 
-
     def rates_error(self, req, result):
         self.rates_content.add_widget(Label(text='Unable to get Maximum rate data from the server'))
         self.ask_slider.max = 0
@@ -621,10 +622,9 @@ class SettingStringExchange(SettingString):
         """
         self.calling_rates_button = instance
         self.rates_content = BoxLayout(orientation='vertical')
-        config = ConfigParser()
         config_ini = App.get_running_app().get_application_config()
-        config.read(config_ini)
-        url = "http://%s:%s/exchanges" % (config.get('server', 'host'), config.get('server', 'port'))
+        self.config.read(config_ini)
+        url = "http://%s:%s/exchanges" % (self.config.get('server', 'host'), self.config.get('server', 'port'))
         self.ask_slider = Slider(step=0.01, size_hint=(0.9, 1))
         self.bid_slider = Slider(step=0.01, size_hint=(0.9, 1))
         req = UrlRequest(url, self.set_pool_maximum_rate, self.rates_error, self.rates_error)
@@ -646,7 +646,7 @@ class SettingStringExchange(SettingString):
         self.bid_value = Label(size_hint=(0.1, 1))
         bid_layout.add_widget(self.bid_value)
         self.rates_content.add_widget(bid_layout)
-        if instance.text != 'Rates':
+        if instance.text != 'Set Rates':
             rates = instance.text.split(' | ')
             self.ask_slider.value = float(rates[0])
             self.bid_slider.value = float(rates[1])
@@ -670,13 +670,6 @@ class SettingStringExchange(SettingString):
 
     def close_rates_popup(self, instance):
         if instance.text == "Ok":
-            if self.rates_error is False:
-                if self.ask_slider.value == 0.00 or self.bid_slider.value == 0.00:
-                    self.rates_popup.dismiss()
-                    return
-                self.calling_rates_button.text = str(self.ask_slider.value) + ' | ' + str(self.bid_slider.value)
+            self.calling_rates_button.text = str(self.ask_slider.value) + ' | ' + str(self.bid_slider.value)
         self.rates_popup.dismiss()
-        if self.rates_error is False:
-            self.ask_slider.value = 0
-            self.bid_slider.value = 0
 

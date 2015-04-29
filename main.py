@@ -189,7 +189,8 @@ class PlungeApp(App):
         config.setdefaults('server', {'host': "", 'port': 80})
         config.setdefaults('exchanges', {'ccedk': 0, 'poloniex': 0, 'bitcoincoid': 0, 'bter': 0, 'bittrex': 0})
         config.setdefaults('standard', {'language': 'English', 'period': 30, 'monitor': 1, 'start_min': 0, 'data': 0,
-                                        'show_disclaimer': 1, 'smooth_line': 1})
+                                        'show_disclaimer': 0, 'smooth_line': 1})
+        config.setdefaults('api_keys', {'bitcoincoid': '', 'bittrex': '', 'bter': '', 'ccedk': '', 'poloniex': ''})
 
     def build_settings(self, settings):
         settings.register_type('string', overrides.SettingStringFocus)

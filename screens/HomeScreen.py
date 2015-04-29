@@ -240,9 +240,6 @@ class HomeScreen(Screen):
         self.getting_personal_stats = True
         self.saving_personal_stats = False
         self.user = {}
-        with open('api_keys.json') as api_keys_file:
-            api_keys = json.load(api_keys_file)
-        api_keys_file.close()
         if not self.PlungeApp.active_exchanges or not self.PlungeApp.active_currencies:
             self.getting_personal_stats = False
             return
@@ -250,32 +247,34 @@ class HomeScreen(Screen):
             self.user[self.personal_exchange] = {'balance': 0, 'num_keys': 0, 'efficiency': 0}
             for currency in self.PlungeApp.active_currencies:
                 self.user[self.personal_exchange][currency] = {'ask_liquidity': 0, 'bid_liquidity': 0, 'ask_rate': 0, 'bid_rate': 0}
-            for set in api_keys:
-                if set['exchange'] == self.personal_exchange:
-                    self.user[self.personal_exchange]['num_keys'] += 1
-                    self.public = set['public']
-                    self.PlungeApp.logger.info("Get Personal Stats for %s - %s" % (self.personal_exchange, self.public))
-                    url = "http://%s:%s/%s" % (self.PlungeApp.config.get('server', 'host'),
-                                               self.PlungeApp.config.get('server', 'port'),
-                                               self.public)
-                    self.saving_personal_stats = True
-                    req = UrlRequest(url, self.save_personal_stats, self.personal_stats_error,
-                                     self.personal_stats_error)
+            # for set in api_keys:
+            #   if set['exchange'] == self.personal_exchange:
 
-                    while self.saving_personal_stats is True:
-                        continue
+            self.public = self.PlungeApp.config.get('api_keys', self.personal_exchange)
+            if self.public == '':
+                continue
+            self.PlungeApp.logger.info("Get Personal Stats for %s - %s" % (self.personal_exchange, self.public))
+            url = "http://%s:%s/%s" % (self.PlungeApp.config.get('server', 'host'),
+                                       self.PlungeApp.config.get('server', 'port'),
+                                       self.public)
+            self.saving_personal_stats = True
+            req = UrlRequest(url, self.save_personal_stats, self.personal_stats_error,
+                             self.personal_stats_error)
 
-                    if self.user[self.personal_exchange]['num_keys'] > 0:
-                        self.user[self.personal_exchange]['efficiency'] /= \
-                            float(self.user[self.personal_exchange]['num_keys'])
+            while self.saving_personal_stats is True:
+                continue
 
-                    # update the graph data lists
-                    self.ensure_lists(self.exchange_efficiency, self.personal_exchange)
-                    self.update_lists((self.user[self.personal_exchange]['efficiency'] * 100),
-                                      self.exchange_efficiency[self.personal_exchange])
-                    self.ensure_lists(self.exchange_balance, self.personal_exchange)
-                    self.update_lists(self.user[self.personal_exchange]['balance'],
-                                      self.exchange_balance[self.personal_exchange])
+            if self.user[self.personal_exchange]['num_keys'] > 0:
+                self.user[self.personal_exchange]['efficiency'] /= \
+                    float(self.user[self.personal_exchange]['num_keys'])
+
+            # update the graph data lists
+            self.ensure_lists(self.exchange_efficiency, self.personal_exchange)
+            self.update_lists((self.user[self.personal_exchange]['efficiency'] * 100),
+                              self.exchange_efficiency[self.personal_exchange])
+            self.ensure_lists(self.exchange_balance, self.personal_exchange)
+            self.update_lists(self.user[self.personal_exchange]['balance'],
+                              self.exchange_balance[self.personal_exchange])
 
         if self.primary_exchange in self.user:
             if self.primary_currency in self.user[self.primary_exchange]:

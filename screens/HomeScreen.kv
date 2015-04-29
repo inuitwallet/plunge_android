@@ -296,15 +296,15 @@
                     orientation: 'vertical'
 
                     SubHeadingLabel:
-                        text: app.get_string("Efficiency")
+                        text: app.get_string("Balance")
                         size_hint: (1, 0.3)
 
                     Label:
-                        id: personal_efficiency
+                        id: personal_balance
                         size_hint: (1, 0.7)
                         font_size: 28
                         markup: True
-                        on_ref_press: root.draw_chart(app.get_string('Efficiency'), app.get_string('Efficiency'), root.total_efficiency_list)
+                        on_ref_press: root.draw_chart(app.get_string('Balance'), app.get_string('Balance'), root.total_balance_list)
 
             GridLayout:
                 cols: 6
@@ -344,15 +344,16 @@
                     orientation: 'vertical'
 
                     SubHeadingLabel:
-                        text: app.get_string("Balance")
+                        text: app.get_string("Efficiency")
                         size_hint: (1, 0.3)
 
                     Label:
-                        id: personal_balance
+                        id: personal_efficiency
                         size_hint: (1, 0.7)
                         font_size: 28
                         markup: True
-                        on_ref_press: root.draw_chart(app.get_string('Balance'), app.get_string('Balance'), root.total_balance_list)
+                        on_ref_press: root.draw_chart(app.get_string('Efficiency'), app.get_string('Efficiency'), root.total_efficiency_list)
+
 
         #Run Section
         BoxLayout:

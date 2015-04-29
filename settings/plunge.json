@@ -19,49 +19,46 @@
   },
   {
     "type": "title",
-    "title": "Exchanges"
+    "title": "Public API Keys"
   },
   {
-    "type": "string_exchange",
+    "type": "string",
     "title": "Bitcoin Indonesia",
-    "desc": "Add users for Bitcoin Indonesia - The number indicates the number of valid users",
-    "section": "exchanges",
+    "desc": "Public API Key for Bitcoin Indonesia",
+    "section": "api_keys",
     "key": "bitcoincoid"
   },
   {
-    "type": "string_exchange",
+    "type": "string",
     "title": "Bittrex",
-    "desc": "Add users for Bittrex - The number indicates the number of valid users",
-    "section": "exchanges",
+    "desc": "Public API Key for Bittrex",
+    "section": "api_keys",
     "key": "bittrex"
   },
   {
     "type": "string_exchange",
     "title": "Bter",
-    "desc": "Add users for Bter - The number indicates the number of valid users",
-    "section": "exchanges",
+    "desc": "Public API Key for Bter",
+    "section": "api_keys",
     "key": "bter"
   },
   {
     "type": "string_exchange",
     "title": "CCEDK",
-    "desc": "Add users for CCEDK - The number indicates the number of valid users",
-    "section": "exchanges",
+    "desc": "Public API Key for CCEDK",
+    "section": "api_keys",
     "key": "ccedk"
   },
   {
     "type": "string_exchange",
     "title": "Poloniex",
-    "desc": "Add users for Poloniex - The number indicates the number of valid users",
-    "section": "exchanges",
+    "desc": "Public API Key for Poloniex",
+    "section": "api_keys",
     "key": "poloniex"
   },
   {
-    "type": "bool",
-    "title": "Monitor",
-    "desc": "Use Plunge to monitor your pool account instead of running the client.",
-    "section": "standard",
-    "key": "monitor"
+    "type": "title",
+    "title": "Settings"
   },
   {
     "type": "bool",
@@ -69,13 +66,6 @@
     "desc": "Choose whether to start Plunge in the minimised view",
     "section": "standard",
     "key": "start_min"
-  },
-  {
-    "type": "bool",
-    "title": "Show Disclaimer",
-    "desc": "Choose whether or not to show the disclaimer",
-    "section": "standard",
-    "key": "show_disclaimer"
   },
   {
     "type": "bool",
