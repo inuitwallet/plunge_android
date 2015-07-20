@@ -36,21 +36,21 @@
     "key": "bittrex"
   },
   {
-    "type": "string_exchange",
+    "type": "string",
     "title": "Bter",
     "desc": "Public API Key for Bter",
     "section": "api_keys",
     "key": "bter"
   },
   {
-    "type": "string_exchange",
+    "type": "string",
     "title": "CCEDK",
     "desc": "Public API Key for CCEDK",
     "section": "api_keys",
     "key": "ccedk"
   },
   {
-    "type": "string_exchange",
+    "type": "string",
     "title": "Poloniex",
     "desc": "Public API Key for Poloniex",
     "section": "api_keys",
